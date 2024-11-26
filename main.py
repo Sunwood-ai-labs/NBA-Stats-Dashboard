@@ -7,6 +7,7 @@ from components.scoreboard import render_scoreboard
 from components.player_stats import render_player_stats
 from components.team_stats import render_team_stats, render_shooting_chart
 from components.pbp import render_play_by_play
+from components.game_history import render_game_history
 
 # ページ設定
 st.set_page_config(
@@ -83,27 +84,31 @@ def main():
             
             # Play-by-Play
             render_play_by_play(pbp_data)
-            
     else:
-        st.warning("No live games available at the moment. Showing recent games instead.")
-        recent_games = nba_client.get_recent_games()
+        st.warning("ライブゲームは現在行われていません。")
         
-        if recent_games and recent_games.get('resultSets') and recent_games['resultSets'][0].get('rowSet'):
-            df = pd.DataFrame(recent_games['resultSets'][0]['rowSet'], 
-                            columns=recent_games['resultSets'][0]['headers'])
-            
-            st.markdown("### Recent NBA Games")
-            st.dataframe(
-                df[['GAME_DATE', 'TEAM_NAME', 'MATCHUP', 'WL', 'PTS', 'PLUS_MINUS']]
-                .sort_values('GAME_DATE', ascending=False)
-                .head(10),
-                use_container_width=True
-            )
-        else:
-            st.error("Unable to fetch live or recent games. Please try again later.")
-            if debug_mode:
-                st.sidebar.error(f"Recent games API response: {recent_games}")
-            st.image("https://images.unsplash.com/photo-1519009843775-0105e5e6d92c", use_container_width=True)
+    # 過去の試合データ分析タブを追加
+    st.markdown("---")
+    render_game_history(nba_client)
+    
+    recent_games = nba_client.get_recent_games()
+    
+    if recent_games and recent_games.get('resultSets') and recent_games['resultSets'][0].get('rowSet'):
+        df = pd.DataFrame(recent_games['resultSets'][0]['rowSet'], 
+                        columns=recent_games['resultSets'][0]['headers'])
+        
+        st.markdown("### Recent NBA Games")
+        st.dataframe(
+            df[['GAME_DATE', 'TEAM_NAME', 'MATCHUP', 'WL', 'PTS', 'PLUS_MINUS']]
+            .sort_values('GAME_DATE', ascending=False)
+            .head(10),
+            use_container_width=True
+        )
+    else:
+        st.error("最近の試合データを取得できませんでした。")
+        if debug_mode:
+            st.sidebar.error(f"Recent games API response: {recent_games}")
+        st.image("https://images.unsplash.com/photo-1519009843775-0105e5e6d92c", use_container_width=True)
 
 def auto_refresh_data():
     if auto_refresh:

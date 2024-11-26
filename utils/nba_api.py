@@ -145,3 +145,45 @@ class NBADataFetcher:
             })
 
         return {'plays': plays}
+
+    def get_team_game_history(self, team_id, last_n_games=10):
+        try:
+            game_finder = leaguegamefinder.LeagueGameFinder(
+                team_id_nullable=team_id,
+                last_n_games_nullable=last_n_games
+            )
+            games = game_finder.get_dict()
+            
+            if self.debug_mode:
+                print(f"Team game history response: {games}")
+            
+            if not games or not games.get('resultSets') or not games['resultSets'][0].get('rowSet'):
+                return None
+            
+            headers = games['resultSets'][0]['headers']
+            rows = games['resultSets'][0]['rowSet']
+            
+            game_history = []
+            for row in rows:
+                game_data = dict(zip(headers, row))
+                game_history.append({
+                    'date': game_data['GAME_DATE'],
+                    'matchup': game_data['MATCHUP'],
+                    'win_loss': game_data['WL'],
+                    'points': game_data['PTS'],
+                    'opponent_points': game_data['PLUS_MINUS'],
+                    'fg_pct': game_data['FG_PCT'],
+                    'fg3_pct': game_data['FG3_PCT'],
+                    'ft_pct': game_data['FT_PCT'],
+                    'rebounds': game_data['REB'],
+                    'assists': game_data['AST'],
+                    'steals': game_data['STL'],
+                    'blocks': game_data['BLK']
+                })
+            
+            return game_history
+        except Exception as e:
+            error_msg = f"Error fetching team game history: {e}"
+            if self.debug_mode:
+                print(error_msg)
+            return None
