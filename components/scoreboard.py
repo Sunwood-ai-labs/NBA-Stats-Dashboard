@@ -26,7 +26,7 @@ def render_scoreboard(game_data):
         col1, col2, col3 = st.columns([2,1,2])
         
         with col1:
-            st.image(game['homeTeam']['teamLogoUrl'], width=100)
+            st.image(game['homeTeam']['teamLogoUrl'], width=100, use_container_width=True)
             st.markdown(f"<h3 style='text-align: center;'>{game['homeTeam']['teamName']}</h3>",
                        unsafe_allow_html=True)
             
@@ -39,6 +39,6 @@ def render_scoreboard(game_data):
             """, unsafe_allow_html=True)
             
         with col3:
-            st.image(game['awayTeam']['teamLogoUrl'], width=100)
+            st.image(game['awayTeam']['teamLogoUrl'], width=100, use_container_width=True)
             st.markdown(f"<h3 style='text-align: center;'>{game['awayTeam']['teamName']}</h3>",
                        unsafe_allow_html=True)

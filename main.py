@@ -20,14 +20,14 @@ with open('assets/styles.css') as f:
     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
 # ヘッダー画像の表示
-st.image("https://images.unsplash.com/photo-1533923156502-be31530547c4", use_column_width=True)
+st.image("https://images.unsplash.com/photo-1533923156502-be31530547c4", use_container_width=True)
 
 # タイトルとサブタイトル
 st.title("🏀 NBA Live Dashboard")
 st.markdown("### Real-time NBA game tracking and statistics")
 
 # サイドバーの設定
-st.sidebar.image("https://images.unsplash.com/photo-1519861531473-9200262188bf", use_column_width=True)
+st.sidebar.image("https://images.unsplash.com/photo-1519861531473-9200262188bf", use_container_width=True)
 auto_refresh = st.sidebar.checkbox("Auto Refresh", value=True)
 refresh_interval = st.sidebar.slider("Refresh Interval (seconds)", 10, 60, 30)
 
@@ -78,12 +78,12 @@ def main():
             
     else:
         st.warning("No live games available at the moment")
-        st.image("https://images.unsplash.com/photo-1519009843775-0105e5e6d92c", use_column_width=True)
+        st.image("https://images.unsplash.com/photo-1519009843775-0105e5e6d92c", use_container_width=True)
 
 def auto_refresh_data():
     if auto_refresh:
         time.sleep(refresh_interval)
-        st.experimental_rerun()
+        st.rerun()
 
 if __name__ == "__main__":
     main()
