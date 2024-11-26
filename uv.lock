@@ -50,11 +50,11 @@ wheels = [
 
 [[package]]
 name = "certifi"
-version = "2024.8.30"
+version = "2023.11.17"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/b0/ee/9b19140fe824b367c04c5e1b369942dd754c4c5462d5674002f75c4dedc1/certifi-2024.8.30.tar.gz", hash = "sha256:bec941d2aa8195e248a60b31ff9f0558284cf01a52591ceda73ea9afffd69fd9", size = 168507 }
+sdist = { url = "https://files.pythonhosted.org/packages/d4/91/c89518dd4fe1f3a4e3f6ab7ff23cb00ef2e8c9adf99dacc618ad5e068e28/certifi-2023.11.17.tar.gz", hash = "sha256:9b469f3a900bf28dc19b8cfbf8019bf47f7fdd1a65a1d4ffb98fc14166beb4d1", size = 163637 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/12/90/3c9ff0512038035f59d279fddeb79f5f1eccd8859f06d6163c58798b9487/certifi-2024.8.30-py3-none-any.whl", hash = "sha256:922820b53db7a7257ffbda3f597266d435245903d80737e34f8a45ff3e3230d8", size = 167321 },
+    { url = "https://files.pythonhosted.org/packages/64/62/428ef076be88fa93716b576e4a01f919d25968913e817077a386fcbe4f42/certifi-2023.11.17-py3-none-any.whl", hash = "sha256:e036ab49d5b79556f99cfc2d9320b34cfbe5be05c5871b51de9329f0603b0474", size = 162530 },
 ]
 
 [[package]]
@@ -284,15 +284,16 @@ wheels = [
 
 [[package]]
 name = "nba-api"
-version = "1.6.1"
+version = "1.4.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
+    { name = "certifi" },
     { name = "numpy" },
     { name = "requests" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/89/1a/877190ca2a22dc3c08f5b750aab808fdd089a60d6b24018d12a03afb5949/nba_api-1.6.1.tar.gz", hash = "sha256:44c6aa1ccc354a6b307e4e1012788752e6da436c1e6f87035f978f2bf7e95a08", size = 151830 }
+sdist = { url = "https://files.pythonhosted.org/packages/4e/b6/acde6fb4ed88d879b5269095e968c76ad3b4b0b3414a9775558bded9ca32/nba_api-1.4.1.tar.gz", hash = "sha256:dc421ed4a6fa5928cb4b26a4fa473d29c4f83866274b2bb86bc841e9508592a2", size = 134325 }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/3b/2c/a58ac53ef96be6a611f5ccf849638d6d06f5fa572c0754ef1d176a039e74/nba_api-1.6.1-py3-none-any.whl", hash = "sha256:c972c57283ed026e4d75ab11aedb0e7df45dc9eaa7b2d3ec48e53d6029e87f49", size = 279357 },
+    { url = "https://files.pythonhosted.org/packages/64/2f/7443f68531adbdf3b8381df174b7b00fa19ff8d871ee2afa1d740b75f2d6/nba_api-1.4.1-py3-none-any.whl", hash = "sha256:1c936c0d48ffbb91fec1a345f703254125269e9ec001b733200de82aa793762e", size = 261672 },
 ]
 
 [[package]]
@@ -542,13 +543,15 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "nba-api" },
+    { name = "pandas" },
     { name = "plotly" },
     { name = "streamlit" },
 ]
 
 [package.metadata]
 requires-dist = [
-    { name = "nba-api", specifier = ">=1.6.1" },
+    { name = "nba-api", specifier = "==1.4.1" },
+    { name = "pandas", specifier = ">=2.2.3" },
     { name = "plotly", specifier = ">=5.24.1" },
     { name = "streamlit", specifier = ">=1.40.2" },
 ]

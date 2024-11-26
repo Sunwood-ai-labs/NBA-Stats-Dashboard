@@ -1,5 +1,6 @@
 import streamlit as st
 import time
+import pandas as pd
 from utils.nba_api import NBADataFetcher
 from utils.data_processor import DataProcessor
 from components.scoreboard import render_scoreboard
@@ -36,9 +37,16 @@ nba_client = NBADataFetcher()
 data_processor = DataProcessor()
 
 def main():
+    # デバッグモードの設定
+    debug_mode = st.sidebar.checkbox("Debug Mode", value=False)
+    nba_client.set_debug_mode(debug_mode)
+
     # リアルタイムデータの取得
     games_data = nba_client.get_live_games()
     
+    if debug_mode:
+        st.sidebar.json(games_data)
+
     if games_data and games_data.get('games'):
         selected_game = st.selectbox(
             "Select Game",
@@ -77,8 +85,25 @@ def main():
             render_play_by_play(pbp_data)
             
     else:
-        st.warning("No live games available at the moment")
-        st.image("https://images.unsplash.com/photo-1519009843775-0105e5e6d92c", use_container_width=True)
+        st.warning("No live games available at the moment. Showing recent games instead.")
+        recent_games = nba_client.get_recent_games()
+        
+        if recent_games and recent_games.get('resultSets') and recent_games['resultSets'][0].get('rowSet'):
+            df = pd.DataFrame(recent_games['resultSets'][0]['rowSet'], 
+                            columns=recent_games['resultSets'][0]['headers'])
+            
+            st.markdown("### Recent NBA Games")
+            st.dataframe(
+                df[['GAME_DATE', 'TEAM_NAME', 'MATCHUP', 'WL', 'PTS', 'PLUS_MINUS']]
+                .sort_values('GAME_DATE', ascending=False)
+                .head(10),
+                use_container_width=True
+            )
+        else:
+            st.error("Unable to fetch live or recent games. Please try again later.")
+            if debug_mode:
+                st.sidebar.error(f"Recent games API response: {recent_games}")
+            st.image("https://images.unsplash.com/photo-1519009843775-0105e5e6d92c", use_container_width=True)
 
 def auto_refresh_data():
     if auto_refresh:
