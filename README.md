@@ -4,6 +4,8 @@
   #### 🏀 NBA リアルタイムダッシュボード
 </div>
 
+https://github.com/user-attachments/assets/5f507cb2-4678-4cdd-9a42-f523ae108501
+
 ## 📝 概要
 NBAの試合をリアルタイムで追跡し、詳細な統計情報を可視化するStreamlitベースのダッシュボードアプリケーションです。
 
